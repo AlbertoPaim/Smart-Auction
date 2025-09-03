@@ -11,18 +11,30 @@ contract Auction {
 
     mapping(address => uint) public bids;
 
-    bool public auctionEnded;
+    bool public auctionEnded = true;
 
     constructor() {
         owner = msg.sender;
     }
 
+    event AuctionStarted(address indexed owner, string itemName);
+
     function startAuction(
         string memory _itemName,
-        uint _biddingTimeInMinutes
+        uint _durantionInMinutes
     ) public {
-        require(msg.sender == owner);
-        itemName = _itemName;
-        startBlock = _biddingTimeInMinutes;
+        require(msg.sender == owner, "Only the owner can start the auction!");
+
+        require(auctionEnded, "Auction must be ended");
+
+        require(bytes(_itemName).length > 0, "Item name cannot be empty");
+
+        auctionEnded = false;
+        highestBid = 0;
+        highestBidder = address(0);
+        startBlock = block.timestamp;
+        endBlock = block.timestamp + (_durantionInMinutes * 60);
+
+        emit AuctionStarted(owner, _itemName);
     }
 }
