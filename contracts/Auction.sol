@@ -8,9 +8,7 @@ contract Auction {
     uint public endBlock;
     uint public highestBid;
     address public highestBidder;
-
     mapping(address => uint) public bids;
-
     bool public auctionEnded = true;
 
     constructor() {
@@ -24,11 +22,10 @@ contract Auction {
         uint _durantionInMinutes
     ) public {
         require(msg.sender == owner, "Only the owner can start the auction!");
-
         require(auctionEnded, "Auction must be ended");
-
         require(bytes(_itemName).length > 0, "Item name cannot be empty");
 
+        itemName = _itemName;
         auctionEnded = false;
         highestBid = 0;
         highestBidder = address(0);
