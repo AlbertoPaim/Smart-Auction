@@ -15,6 +15,11 @@ contract Auction {
         owner = msg.sender;
     }
 
+    modifier ownable() {
+        require(msg.sender == owner, "Only the owner can call this function!");
+        _;
+    }
+
     event AuctionStarted(address indexed owner, string itemName);
     event NewBid(address indexed bidder, uint amout);
     event AuctionEnded(address indexed winner, uint amount);
@@ -22,8 +27,7 @@ contract Auction {
     function startAuction(
         string memory _itemName,
         uint _durantionInMinutes
-    ) public {
-        require(msg.sender == owner, "Only the owner can start the auction!");
+    ) public ownable {
         require(auctionEnded, "Auction must be ended");
         require(bytes(_itemName).length > 0, "Item name cannot be empty");
 
@@ -60,8 +64,7 @@ contract Auction {
         emit NewBid(msg.sender, msg.value);
     }
 
-    function endAuction() public {
-        require(msg.sender == owner, "Only the owner can end the auction!");
+    function endAuction() public ownable {
         require(!auctionEnded, "Auction is not active.");
         require(block.timestamp >= endBlock, "Auction has not ended yet.");
 
