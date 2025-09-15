@@ -1,57 +1,80 @@
-# Sample Hardhat 3 Beta Project (`mocha` and `ethers`)
+# Decentralized Auction Platform
 
-This project showcases a Hardhat 3 Beta project using `mocha` for tests and the `ethers` library for Ethereum interactions.
+## 📖 Sobre o Projeto
 
-To learn more about the Hardhat 3 Beta, please visit the [Getting Started guide](https://hardhat.org/docs/getting-started#getting-started-with-hardhat-3). To share your feedback, join our [Hardhat 3 Beta](https://hardhat.org/hardhat3-beta-telegram-group) Telegram group or [open an issue](https://github.com/NomicFoundation/hardhat/issues/new) in our GitHub issue tracker.
+Este repositório contém um **Smart Contract** para um sistema de leilão descentralizado, desenvolvido em Solidity e executado na blockchain Ethereum. A aplicação permite que um administrador (o "dono" do contrato) inicie, gerencie e finalize leilões de forma segura, transparente e imutável.
 
-## Project Overview
+O contrato implementa uma lógica de leilão inglês, onde os participantes podem fazer lances públicos, e o maior lance ao final do período vence. Uma característica chave é o sistema de **reembolso automático**, que devolve o valor ao licitante anterior assim que um lance maior é feito, garantindo a fluidez e a segurança dos fundos.
 
-This example project includes:
+Este projeto demonstra competências em desenvolvimento de smart contracts, gerenciamento de estado na blockchain, segurança de fundos e automação de testes com Hardhat.
 
-- A simple Hardhat configuration file.
-- Foundry-compatible Solidity unit tests.
-- TypeScript integration tests using `mocha` and ethers.js
-- Examples demonstrating how to connect to different types of networks, including locally simulating OP mainnet.
+-----
 
-## Usage
+## ✨ Funcionalidades Principais
 
-### Running Tests
+  - **Gerenciamento pelo Dono:** Apenas o dono do contrato pode iniciar e finalizar os leilões.
+  - **Leilões Dinâmicos:** O dono pode iniciar um leilão para qualquer item, definindo sua duração em minutos.
+  - **Lances Públicos e Competitivos:** Qualquer pessoa pode fazer um lance (`placeBid`), desde que o valor seja maior que o lance mais alto atual.
+  - **Reembolso Automático:** O contrato devolve automaticamente o valor ao licitante anterior quando um novo lance mais alto é recebido.
+  - **Transferência Segura de Fundos:** Ao final do leilão, o valor do lance vencedor é transferido de forma segura e automática para o dono do contrato.
+  - **Orientado a Eventos:** O contrato emite eventos (`AuctionStarted`, `NewBid`, `AuctionEnded`) para que aplicações externas (frontends) possam monitorar o status do leilão em tempo real.
 
-To run all the tests in the project, execute the following command:
+-----
 
-```shell
+## 🛠️ Tecnologias Utilizadas
+
+  - **Linguagem:** Solidity `^0.8.28`
+  - **Framework de Desenvolvimento:** [Hardhat](https://hardhat.org/)
+  - **Testes:** [Mocha](https://mochajs.org/) & [Chai](https://www.chaijs.com/)
+  - **Interação com a Blockchain:** [Ethers.js](https://ethers.org/)
+  - **Linguagem de Testes e Scripts:** TypeScript
+
+-----
+
+## 🚀 Como Rodar o Projeto Localmente
+
+Siga os passos abaixo para configurar e interagir com o projeto em um ambiente de desenvolvimento local.
+
+### Pré-requisitos
+
+  - [Node.js](https://nodejs.org/en/) (versão 18.x ou superior)
+  - `npm` ou `yarn`
+
+### Instalação
+
+1.  Clone o repositório:
+    ```bash
+    git clone https://github.com/seu-usuario/seu-repositorio.git
+    ```
+2.  Navegue até o diretório do projeto:
+    ```bash
+    cd seu-repositorio
+    ```
+3.  Instale as dependências:
+    ```bash
+    npm install
+    ```
+
+### Compilando o Contrato
+
+Para compilar o smart contract, execute o seguinte comando:
+
+```bash
+npx hardhat compile
+```
+
+-----
+
+## ✅ Executando os Testes
+
+Este projeto possui uma suíte de testes completa para garantir o funcionamento correto de todas as funções do contrato. Para executar os testes, utilize o comando:
+
+```bash
 npx hardhat test
 ```
 
-You can also selectively run the Solidity or `mocha` tests:
+-----
 
-```shell
-npx hardhat test solidity
-npx hardhat test mocha
-```
+## 📜 Licença
 
-### Make a deployment to Sepolia
-
-This project includes an example Ignition module to deploy the contract. You can deploy this module to a locally simulated chain or to Sepolia.
-
-To run the deployment to a local chain:
-
-```shell
-npx hardhat ignition deploy ignition/modules/Counter.ts
-```
-
-To run the deployment to Sepolia, you need an account with funds to send the transaction. The provided Hardhat configuration includes a Configuration Variable called `SEPOLIA_PRIVATE_KEY`, which you can use to set the private key of the account you want to use.
-
-You can set the `SEPOLIA_PRIVATE_KEY` variable using the `hardhat-keystore` plugin or by setting it as an environment variable.
-
-To set the `SEPOLIA_PRIVATE_KEY` config variable using `hardhat-keystore`:
-
-```shell
-npx hardhat keystore set SEPOLIA_PRIVATE_KEY
-```
-
-After setting the variable, you can run the deployment with the Sepolia network:
-
-```shell
-npx hardhat ignition deploy --network sepolia ignition/modules/Counter.ts
-```
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](https://www.google.com/search?q=LICENSE) para mais detalhes.
